@@ -24,5 +24,18 @@
     "view_service_id": 1,
     "symbol": "iVBORw0KGgoAAAANSUhEUgAAAEgAAAAkAgMAAABXtZT1AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAADFBMVEX+7an+3FP/zAD////0ncVSAAAAAWJLR0QDEQxM8gAAAAd0SU1FB+MEHQwdC2pTpv4AAAAcSURBVCjPYxANRQMhDFmr0MDKUaFRIXoLYSZMAIgsmUho/kyPAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTA0LTI5VDE0OjI5OjExKzAyOjAwDSZUvgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wNC0yOVQxNDoyOToxMSswMjowMHx77AIAAAAASUVORK5CYII=",
     "topic": "ForestPerimeters"
+  },
+  {
+    "legend_text": {
+      "fr": "Pollué, nécessite une surveillance",
+      "de": "Belastet, überwachungsbedürftig",
+      "it": "Inquinato, deve essere sorvegliato"
+    },
+    "type_code": "StaoTyp3",
+    "id": 18,
+    "type_code_list": "https://models.geo.admin.ch/BAFU/KbS_Codetexte_V1_4.xml",
+    "view_service_id": 1,
+    "symbol": "iVBORw0KGgoAAAANSUhEUgAAAEgAAAAkAgMAAABXtZT1AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAADFBMVEX+7an+3FP/zAD////0ncVSAAAAAWJLR0QDEQxM8gAAAAd0SU1FB+MEHQwdC2pTpv4AAAAcSURBVCjPYxANRQMhDFmr0MDKUaFRIXoLYSZMAIgsmUho/kyPAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTA0LTI5VDE0OjI5OjExKzAyOjAwDSZUvgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wNC0yOVQxNDoyOToxMSswMjowMHx77AIAAAAASUVORK5CYII=",
+    "topic": "ForestPerimeters"
   }
 ]

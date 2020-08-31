@@ -28,5 +28,20 @@
       "it": "Inquinato, non deve essere né sorvegliato né risanato"
     },
     "topic": "ForestPerimeters"
+  },
+  {
+    "office_id": 1,
+    "published_from": "2020-08-31",
+    "type_code": "StaoTyp3",
+    "id": 404,
+    "type_code_list": "",
+    "law_status": "inForce",
+    "view_service_id": 1,
+    "information": {
+      "fr": "Pollué, nécessite une surveillance",
+      "de": "Belastet, überwachungsbedürftig",
+      "it": "Inquinato, deve essere sorvegliato"
+    },
+    "topic": "ForestPerimeters"
   }
 ]
