@@ -52,7 +52,7 @@ The server is able to use ÖEREBlex, GeoAdmin API for gathering data. This needs
 by the integrator of this package. In addition a small tool for loading legend symbols for each used WMS layer
 is included.
 
-For the moment we provide an adapter to get the PDF static extract from mapfishprint.
+For the moment we provide an adapter to get the PDF static extract from mapfishprint and xml2pdf.
 
 .. image:: ../images/overview.png
    :align: center
