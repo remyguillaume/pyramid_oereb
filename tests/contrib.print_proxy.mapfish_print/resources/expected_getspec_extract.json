@@ -482,7 +482,31 @@
           "ResponsibleOffice_Name": "Landeskanzlei"
         }
       ],
-      "Laws": [],
+      "Laws": [        {
+          "OfficialNumber": "700",
+          "Title": "Bundesgesetz über die Raumplanung (Raumplanungsgesetz, RPG)",
+          "Abbreviation": "Raumplanungsgesetz, RPG",
+          "Canton": "BL",
+          "TextAtWeb": [
+            {
+              "URL": "http://www.lexfind.ch/dtah/155346/2"
+            }
+          ],
+          "Type": {
+            "Code": "Law",
+            "Text": [
+              {
+                "Language": "de",
+                "Text": "GesetzlicheGrundlage"
+              }
+            ]
+          },
+          "Lawstatus_Code": "inKraft",
+          "Lawstatus_Text": "Rechtskräftig",
+          "ResponsibleOffice_OfficeAtWeb": "https%3A%2F%2Fwww.bk.admin.ch%2F",
+          "ResponsibleOffice_Name": "Bundeskanzlei"
+        }
+      ],
       "Hints": [],
       "Geom_Type": "AreaShare",
       "Legend": [

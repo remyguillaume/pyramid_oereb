@@ -616,11 +616,11 @@
                     ]
                   },
                   "Type": {
-                    "Code": "LegalProvision",
+                    "Code": "Law",
                     "Text": [
                       {
                         "Language": "de",
-                        "Text": "Rechtsvorschrift"
+                        "Text": "GesetzlicheGrundlage"
                       }
                     ]
                   }
@@ -1497,11 +1497,11 @@
                     ]
                   },
                   "Type": {
-                    "Code": "LegalProvision",
+                    "Code": "Law",
                     "Text": [
                       {
                         "Language": "de",
-                        "Text": "Rechtsvorschrift"
+                        "Text": "GesetzlicheGrundlage"
                       }
                     ]
                   }
@@ -2378,11 +2378,11 @@
                     ]
                   },
                   "Type": {
-                    "Code": "LegalProvision",
+                    "Code": "Law",
                     "Text": [
                       {
                         "Language": "de",
-                        "Text": "Rechtsvorschrift"
+                        "Text": "GesetzlicheGrundlage"
                       }
                     ]
                   }
@@ -3259,11 +3259,11 @@
                     ]
                   },
                   "Type": {
-                    "Code": "LegalProvision",
+                    "Code": "Law",
                     "Text": [
                       {
                         "Language": "de",
-                        "Text": "Rechtsvorschrift"
+                        "Text": "GesetzlicheGrundlage"
                       }
                     ]
                   }
