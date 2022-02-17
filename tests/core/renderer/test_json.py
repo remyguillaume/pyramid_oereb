@@ -163,7 +163,7 @@ def test_render(pyramid_oereb_test_config, pyramid_test_config, DummyRenderInfo,
         assert result == expected
 
 
-def test_format_office(DummyRenderInfo):
+def test_format_office(pyramid_oereb_test_config, pyramid_test_config, DummyRenderInfo):
     renderer = Renderer(DummyRenderInfo())
     renderer._language = 'de'
     office = OfficeRecord({'de': u'Test'}, uid=u'test_uid', office_at_web=u'http://test.example.com',
@@ -182,17 +182,62 @@ def test_format_office(DummyRenderInfo):
     }
 
 
-def test_format_real_estate(DummyRenderInfo, real_estate_test_data):
+@pytest.fixture
+def legend_entry_sample():
+    return LegendEntryRecord(
+        ImageRecord(FileAdapter().read('tests/resources/logo_canton.png')),
+        {"fr": "Pollué, investigation nécessaire", "de": "Belastet, untersuchungsbedürftig", "it": "Inquinato, è necessario procedere a un?indagine"},
+        "StaoTyp1",
+        "https://models.geo.admin.ch/BAFU/KbS_Codetexte_V1_4.xml",
+        ThemeRecord("ch.Nutzungsplanung", "Nutzundsplanung", 1),
+        view_service_id='test_view_service',
+        identifier="25",
+        sub_theme=ThemeRecord("ch.Nutzungsplanung", "Nutzundsplanung", 1, sub_code="ch.Baulinien")
+    )
+
+
+@pytest.fixture
+def view_service_sample_with_legend(legend_entry_sample):
+    return ViewServiceRecord(
+        {'de': 'http://geowms.bl.ch'},
+        1, 1.0, 'de', 2056, None, [legend_entry_sample]
+    )
+
+
+@patch.object(pyramid_oereb.core.hook_methods, 'route_prefix', 'oereb')
+def test_format_map(pyramid_oereb_test_config, pyramid_test_config,
+                    DummyRenderInfo, view_service_sample_with_legend):
+    renderer = Renderer(DummyRenderInfo())
+    renderer._language = 'de'
+    renderer._params = default_param()
+    renderer._request = MockRequest()
+    result = renderer.format_map(view_service_sample_with_legend)
+    assert result == {
+        'ReferenceWMS': [{'Language': 'de', 'Text': 'http://geowms.bl.ch'}],
+        'OtherLegend': [{
+            'LegendText': [{'Language': 'de', 'Text': 'Belastet, untersuchungsbedürftig'}],
+            'TypeCode': 'StaoTyp1',
+            'TypeCodelist': 'https://models.geo.admin.ch/BAFU/KbS_Codetexte_V1_4.xml',
+            'Theme': {
+                'Code': 'ch.Nutzungsplanung',
+                'Text': [{'Language': 'de', 'Text': 'Nutzundsplanung'}],
+                'SubCode': 'ch.Baulinien'
+            },
+            'SymbolRef': 'http://example.com/image/symbol/ch.Nutzungsplanung/legend_entry.png?identifier=25',
+            # 'SymbolRef': 'http://example.com/image/symbol/ch.Nutzungsplanung/test_view_service/StaoTyp1.png',
+        }],
+        'layerIndex': 1,
+        'layerOpacity': 1.0
+    }
+
+
+def test_format_real_estate(DummyRenderInfo, real_estate_test_data, view_service_sample_with_legend):
     renderer = Renderer(DummyRenderInfo())
     renderer._language = u'de'
     renderer._params = Parameter(
         'json', 'reduced', True, False, 'BL0200002829', '1000', 'CH775979211712', 'de'
     )
     geometry = MultiPolygon([Polygon([(0, 0), (1, 1), (1, 0)])])
-    view_service = ViewServiceRecord(
-        {'de': u'http://geowms.bl.ch'},
-        1, 1.0, 'de', 2056, None, None
-    )
     document = DocumentRecord(
         document_type=DocumentTypeRecord('GesetzlicheGrundlage', {'de': 'Gesetzliche Grundlage'}),
         index=1,
@@ -205,8 +250,8 @@ def test_format_real_estate(DummyRenderInfo, real_estate_test_data):
     real_estate = RealEstateRecord(u'Liegenschaft', u'BL', u'Liestal', 2829, 11395,
                                    geometry, u'http://www.geocat.ch', u'1000', u'BL0200002829',
                                    u'CH775979211712', u'Subunit', [], references=[document])
-    real_estate.set_view_service(view_service)
-    real_estate.set_main_page_view_service(view_service)
+    real_estate.set_view_service(view_service_sample_with_legend)
+    real_estate.set_main_page_view_service(view_service_sample_with_legend)
     result = renderer.format_real_estate(real_estate)
     assert isinstance(result, dict)
     assert result == {
@@ -218,8 +263,8 @@ def test_format_real_estate(DummyRenderInfo, real_estate_test_data):
         'MunicipalityName': u'Liestal',
         'MunicipalityCode': 2829,
         'LandRegistryArea': 11395,
-        'PlanForLandRegister': renderer.format_map(view_service),
-        'PlanForLandRegisterMainPage': renderer.format_map(view_service),
+        'PlanForLandRegister': renderer.format_map(view_service_sample_with_legend),
+        'PlanForLandRegisterMainPage': renderer.format_map(view_service_sample_with_legend),
         'Limit': renderer.from_shapely(geometry),
         'Number': u'1000',
         'IdentDN': u'BL0200002829',
@@ -235,7 +280,8 @@ def test_format_real_estate(DummyRenderInfo, real_estate_test_data):
     default_param(),
     Parameter('json', False, True, False, 'BL0200002829', '1000', 'CH775979211712', 'de'),
 ])
-def test_format_plr(DummyRenderInfo, parameter):
+def test_format_plr(pyramid_oereb_test_config, pyramid_test_config,
+                    DummyRenderInfo, parameter, view_service_sample_with_legend):
     renderer = Renderer(DummyRenderInfo())
     renderer._language = 'de'
     renderer._params = parameter
@@ -259,12 +305,8 @@ def test_format_plr(DummyRenderInfo, parameter):
     office = OfficeRecord({'de': 'Test Office'})
     legend_entry = LegendEntryRecord(
         ImageRecord(FileAdapter().read('tests/resources/python.svg')),
-        {'de': 'Test'}, 'CodeA', 'TypeCodeList', theme,
+        {'de': 'TestMain'}, 'CodeA', 'TypeCodeList', theme,
         view_service_id=1, identifier="1")
-    view_service = ViewServiceRecord(
-        {'de': 'http://geowms.bl.ch'},
-        1, 1.0, 'de', 2056, None, [legend_entry]
-    )
     geometry = GeometryRecord(law_status(), datetime.date.today(), None, Point(1, 1))
     plr = PlrRecord(
         theme,
@@ -274,7 +316,7 @@ def test_format_plr(DummyRenderInfo, parameter):
         None,
         office,
         ImageRecord(FileAdapter().read('tests/resources/python.svg')),
-        view_service,
+        view_service_sample_with_legend,
         [geometry],
         subTheme,
         type_code='CodeA',
@@ -509,7 +551,7 @@ def test_format_theme(DummyRenderInfo, params):
     default_param(),
     Parameter('json', 'reduced', False, True, 'BL0200002829', '1000', 'CH775979211712', 'de')
 ])
-def test_format_legend_entry(DummyRenderInfo, parameter):
+def test_format_legend_entry(pyramid_oereb_test_config, pyramid_test_config, DummyRenderInfo, parameter):
     renderer = Renderer(DummyRenderInfo())
     renderer._language = u'de'
     renderer._params = parameter
