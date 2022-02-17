@@ -186,7 +186,9 @@ def test_format_office(pyramid_oereb_test_config, pyramid_test_config, DummyRend
 def legend_entry_sample():
     return LegendEntryRecord(
         ImageRecord(FileAdapter().read('tests/resources/logo_canton.png')),
-        {"fr": "Pollué, investigation nécessaire", "de": "Belastet, untersuchungsbedürftig", "it": "Inquinato, è necessario procedere a un?indagine"},
+        {"fr": "Pollué, investigation nécessaire",
+         "de": "Belastet, untersuchungsbedürftig",
+         "it": "Inquinato, è necessario procedere a un?indagine"},
         "StaoTyp1",
         "https://models.geo.admin.ch/BAFU/KbS_Codetexte_V1_4.xml",
         ThemeRecord("ch.Nutzungsplanung", "Nutzundsplanung", 1),
@@ -224,7 +226,6 @@ def test_format_map(pyramid_oereb_test_config, pyramid_test_config,
                 'SubCode': 'ch.Baulinien'
             },
             'SymbolRef': 'http://example.com/image/symbol/ch.Nutzungsplanung/legend_entry.png?identifier=25',
-            # 'SymbolRef': 'http://example.com/image/symbol/ch.Nutzungsplanung/test_view_service/StaoTyp1.png',
         }],
         'layerIndex': 1,
         'layerOpacity': 1.0
